@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { useAuth } from '../hooks/useAuth';
 import { updateUserProfile } from '../lib/firebase/firestore';
 import { Avatar } from '../components/Avatar';
 
 export const Profile = () => {
-  const { user, profile, loading: authLoading, refreshProfile } = useAuth();
+  const { user, profile, loading: authLoading, refreshProfile, signout } = useAuth();
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [status, setStatus] = useState('');
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
@@ -47,6 +49,15 @@ export const Profile = () => {
       setMessage({ type: 'error', text: error.message || 'Failed to update profile' });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signout();
+      navigate('/signin');
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Failed to logout' });
     }
   };
 
@@ -162,6 +173,17 @@ export const Profile = () => {
               </button>
             </div>
           </form>
+
+          {/* Logout Section */}
+          <div className="mt-8 pt-8 border-t border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Actions</h2>
+            <button
+              onClick={handleLogout}
+              className="px-6 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
