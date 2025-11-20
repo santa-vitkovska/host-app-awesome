@@ -26,6 +26,9 @@ importers:
       react-router-dom:
         specifier: ^7.9.5
         version: 7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      threadly-chat-module:
+        specifier: ^1.0.0
+        version: 1.0.0(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -1596,6 +1599,14 @@ packages:
   tapable@2.3.0:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
+
+  threadly-chat-module@1.0.0:
+    resolution: {integrity: sha512-VK8lptMqQOg55kaHQaCgw2Rh9OK/Zxt7CAr3PIHb95BG/a8lI36lZa7Yy/5rfuuxO1XU3UfdAZwotMYhtdVBmA==}
+    peerDependencies:
+      firebase: ^12.5.0
+      react: ^19.2.0
+      react-dom: ^19.2.0
+      react-router-dom: ^7.9.5
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -3292,6 +3303,15 @@ snapshots:
   tailwindcss@4.1.17: {}
 
   tapable@2.3.0: {}
+
+  threadly-chat-module@1.0.0(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+    dependencies:
+      clsx: 2.1.1
+      date-fns: 4.1.0
+      firebase: 12.5.0
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
+      react-router-dom: 7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
   tinyglobby@0.2.15:
     dependencies:
