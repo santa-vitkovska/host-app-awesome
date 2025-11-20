@@ -1,15 +1,40 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { Welcome } from './pages/Welcome';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
-import { ChatRoom } from './pages/ChatRoom';
-import { ChatList } from './pages/ChatList';
 import { Board } from './pages/Board';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { ProtectedRoute } from './components/ProtectedRoute';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
+import type { AuthContextValue } from 'threadly-chat-module';
+
+// Lazy load the chat module
+const ChatModule = lazy(() => import('threadly-chat-module').then(module => ({ default: module.Chat })));
+
+// Wrapper component to convert host auth to chat module format
+const ChatWrapper = () => {
+  const auth = useAuth();
+  
+  // Convert Firebase User to AuthUser format
+  const chatAuth: AuthContextValue = {
+    user: auth.user ? {
+      uid: auth.user.uid,
+      email: auth.user.email,
+      displayName: auth.user.displayName,
+      photoURL: auth.user.photoURL,
+    } : null,
+    loading: auth.loading,
+  };
+
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading chat...</div>}>
+      <ChatModule auth={chatAuth} />
+    </Suspense>
+  );
+};
 
 function App() {
   return (
@@ -24,7 +49,7 @@ function App() {
               path="/chats"
               element={
                 <ProtectedRoute>
-                  <ChatList />
+                  <ChatWrapper />
                 </ProtectedRoute>
               }
             />
@@ -32,7 +57,7 @@ function App() {
               path="/chat/:chatId"
               element={
                 <ProtectedRoute>
-                  <ChatRoom />
+                  <ChatWrapper />
                 </ProtectedRoute>
               }
             />
