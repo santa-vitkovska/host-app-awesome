@@ -10,6 +10,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import type { AuthContextValue } from 'threadly-chat-module';
+import 'threadly-chat-module/dist/threadly.css';
 
 // Lazy load the chat module
 const ChatModule = lazy(() => import('threadly-chat-module').then(module => ({ default: module.Chat })));
