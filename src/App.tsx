@@ -15,6 +15,22 @@ import 'threadly-chat-module/dist/threadly.css';
 // Lazy load the chat module
 const ChatModule = lazy(() => import('threadly-chat-module').then(module => ({ default: module.Chat })));
 
+// Root redirect component that checks auth state
+const RootRedirect = () => {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    );
+  }
+  
+  // If logged in, go to chats; if not, go to signin
+  return <Navigate to={user ? "/chats" : "/signin"} replace />;
+};
+
 // Wrapper component to convert host auth to chat module format
 const ChatWrapper = () => {
   const auth = useAuth();
@@ -86,8 +102,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/welcome" replace />} />
-            <Route path="*" element={<Navigate to="/welcome" replace />} />
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="*" element={<Navigate to="/signin" replace />} />
           </Routes>
         </BrowserRouter>
       </ChatProvider>

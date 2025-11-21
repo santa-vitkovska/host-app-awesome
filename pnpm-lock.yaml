@@ -27,8 +27,8 @@ importers:
         specifier: ^7.9.5
         version: 7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       threadly-chat-module:
-        specifier: ^1.0.3
-        version: 1.0.3(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
+        specifier: ^1.0.4
+        version: 1.0.4(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -1600,8 +1600,8 @@ packages:
     resolution: {integrity: sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==}
     engines: {node: '>=6'}
 
-  threadly-chat-module@1.0.3:
-    resolution: {integrity: sha512-9m9WT1M28cUfEjobax9Kh78M6yVDOoGMmFiE8KfeAxeauZnZGmjC2NHgtnZBxLYxoHf+gy5+ZAxEwpbGawc2Pg==}
+  threadly-chat-module@1.0.4:
+    resolution: {integrity: sha512-QHSDQprrfRpAyxNTEYkJGLV7nSf6WivSnoMeoO0pv6p+iVrxCoaurBbSt6OAeMmkYRE9ZdZLmBC7CgzWW6ixGw==}
     peerDependencies:
       firebase: ^12.5.0
       react: ^19.2.0
@@ -3304,7 +3304,7 @@ snapshots:
 
   tapable@2.3.0: {}
 
-  threadly-chat-module@1.0.3(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
+  threadly-chat-module@1.0.4(firebase@12.5.0)(react-dom@19.2.0(react@19.2.0))(react-router-dom@7.9.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react@19.2.0):
     dependencies:
       clsx: 2.1.1
       date-fns: 4.1.0
