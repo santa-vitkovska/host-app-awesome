@@ -7,6 +7,7 @@ import { Board } from './pages/Board';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from './components/Layout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ChatProvider } from './contexts/ChatContext';
 import type { AuthContextValue } from 'threadly-chat-module';
@@ -47,9 +48,11 @@ const ChatWrapper = () => {
   };
 
   return (
-    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading chat...</div>}>
-      <ChatModule auth={chatAuth} />
-    </Suspense>
+    <Layout>
+      <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading chat...</div>}>
+        <ChatModule auth={chatAuth} />
+      </Suspense>
+    </Layout>
   );
 };
 
