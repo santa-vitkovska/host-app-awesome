@@ -5,8 +5,9 @@ import { useAuth } from '../hooks/useAuth';
 
 export const Welcome = () => {
   const { user } = useAuth();
-  const [likeState, setLikeState] = useState<'default' | 'hovered' | 'clicked'>('default');
-  const [dislikeState, setDislikeState] = useState<'default' | 'hovered' | 'clicked'>('default');
+  const [selected, setSelected] = useState<'like' | 'dislike' | null>(null);
+  const [likeHovered, setLikeHovered] = useState(false);
+  const [dislikeHovered, setDislikeHovered] = useState(false);
 
   // If user is logged in, show different content
   if (user) {
@@ -26,24 +27,24 @@ export const Welcome = () => {
                 type="button"
                 className={`
                   w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200
-                  ${likeState === 'clicked' 
+                  ${selected === 'like' 
                     ? 'bg-green-500 scale-95 shadow-lg' 
-                    : likeState === 'hovered'
+                    : likeHovered
                     ? 'bg-green-100 scale-110 shadow-md'
                     : 'bg-gray-100 hover:bg-green-100 scale-100 shadow-sm'
                   }
                 `}
-                onMouseEnter={() => setLikeState('hovered')}
-                onMouseLeave={() => setLikeState(likeState === 'clicked' ? 'clicked' : 'default')}
-                onClick={() => setLikeState('clicked')}
+                onMouseEnter={() => setLikeHovered(true)}
+                onMouseLeave={() => setLikeHovered(false)}
+                onClick={() => setSelected(selected === 'like' ? null : 'like')}
                 aria-label="Like"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-8 w-8 ${
-                    likeState === 'clicked' 
+                    selected === 'like' 
                       ? 'text-white' 
-                      : likeState === 'hovered'
+                      : likeHovered
                       ? 'text-green-600'
                       : 'text-gray-600'
                   }`}
@@ -65,24 +66,24 @@ export const Welcome = () => {
                 type="button"
                 className={`
                   w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200
-                  ${dislikeState === 'clicked' 
+                  ${selected === 'dislike' 
                     ? 'bg-red-500 scale-95 shadow-lg' 
-                    : dislikeState === 'hovered'
+                    : dislikeHovered
                     ? 'bg-red-100 scale-110 shadow-md'
                     : 'bg-gray-100 hover:bg-red-100 scale-100 shadow-sm'
                   }
                 `}
-                onMouseEnter={() => setDislikeState('hovered')}
-                onMouseLeave={() => setDislikeState(dislikeState === 'clicked' ? 'clicked' : 'default')}
-                onClick={() => setDislikeState('clicked')}
+                onMouseEnter={() => setDislikeHovered(true)}
+                onMouseLeave={() => setDislikeHovered(false)}
+                onClick={() => setSelected(selected === 'dislike' ? null : 'dislike')}
                 aria-label="Dislike"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-8 w-8 ${
-                    dislikeState === 'clicked' 
+                    selected === 'dislike' 
                       ? 'text-white' 
-                      : dislikeState === 'hovered'
+                      : dislikeHovered
                       ? 'text-red-600'
                       : 'text-gray-600'
                   }`}

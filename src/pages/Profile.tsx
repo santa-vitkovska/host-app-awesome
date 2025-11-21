@@ -104,13 +104,13 @@ export const Profile = () => {
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Profile</h1>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">Profile</h1>
         
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-white rounded-lg shadow p-4">
           {message && (
             <div
-              className={`mb-4 p-3 rounded-md text-sm ${
+              className={`mb-3 p-2 rounded-md text-sm ${
                 message.type === 'success'
                   ? 'bg-green-50 border border-green-200 text-green-700'
                   : 'bg-red-50 border border-red-200 text-red-700'
@@ -120,13 +120,13 @@ export const Profile = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Avatar Section */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Avatar
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 <Avatar src={avatarUrl} alt={displayName || user.email || 'User'} size="lg" />
                 <p className="text-sm text-gray-500">
                   {avatarUrl ? 'Your avatar is set from your Google account.' : 'Your avatar will show your initials.'}
@@ -160,7 +160,7 @@ export const Profile = () => {
                 id="status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                rows={3}
+                rows={2}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 placeholder="What's on your mind?"
                 disabled={saving}
@@ -183,8 +183,15 @@ export const Profile = () => {
               <p className="mt-1 text-xs text-gray-500">Email cannot be changed</p>
             </div>
 
-            {/* Save Button */}
-            <div className="flex justify-end">
+            {/* Action Buttons */}
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
               <button
                 type="submit"
                 disabled={saving || !displayName.trim() || !hasChanges}
@@ -194,17 +201,6 @@ export const Profile = () => {
               </button>
             </div>
           </form>
-
-          {/* Logout Section */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Actions</h2>
-            <button
-              onClick={handleLogout}
-              className="px-6 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700 transition-colors"
-            >
-              Logout
-            </button>
-          </div>
         </div>
       </div>
     </Layout>

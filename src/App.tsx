@@ -51,8 +51,8 @@ const ChatWrapper = () => {
   };
 
   return (
-    <Layout hideFooter>
-      <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading chat...</div>}>
+    <Layout hideFooter fullHeight>
+      <Suspense fallback={<div className="flex items-center justify-center h-full">Loading chat...</div>}>
         <ChatModule auth={chatAuth} />
       </Suspense>
     </Layout>
