@@ -3,9 +3,6 @@ import { lazy, Suspense } from 'react';
 import { Welcome } from './pages/Welcome';
 import { SignIn } from './pages/SignIn';
 import { SignUp } from './pages/SignUp';
-import { Board } from './pages/Board';
-import { Profile } from './pages/Profile';
-import { Settings } from './pages/Settings';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Layout } from './components/Layout';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -13,19 +10,25 @@ import { ChatProvider } from './contexts/ChatContext';
 import type { AuthContextValue } from 'threadly-chat-module';
 import 'threadly-chat-module/dist/threadly.css';
 
-// Lazy load the chat module
+// Lazy load components for better performance
 const ChatModule = lazy(() => import('threadly-chat-module').then(module => ({ default: module.Chat })));
+const Profile = lazy(() => import('./pages/Profile').then(module => ({ default: module.Profile })));
+const Settings = lazy(() => import('./pages/Settings').then(module => ({ default: module.Settings })));
+const Board = lazy(() => import('./pages/Board').then(module => ({ default: module.Board })));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-gray-600">Loading...</div>
+  </div>
+);
 
 // Root redirect component that checks auth state
 const RootRedirect = () => {
   const { user, loading } = useAuth();
   
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
-      </div>
-    );
+    return <LoadingFallback />;
   }
   
   // If logged in, go to chats; if not, go to signin
@@ -48,7 +51,7 @@ const ChatWrapper = () => {
   };
 
   return (
-    <Layout>
+    <Layout hideFooter>
       <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading chat...</div>}>
         <ChatModule auth={chatAuth} />
       </Suspense>
@@ -85,7 +88,9 @@ function App() {
               path="/board/:boardId"
               element={
                 <ProtectedRoute>
-                  <Board />
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Board />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -93,7 +98,9 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <Profile />
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Profile />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -101,7 +108,9 @@ function App() {
               path="/settings"
               element={
                 <ProtectedRoute>
-                  <Settings />
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Settings />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
