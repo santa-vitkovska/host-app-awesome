@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User } from 'firebase/auth';
-import { onAuthStateChanged, signUp as authSignUp, signIn as authSignIn, signOut as authSignOut, signInWithGoogle as authSignInWithGoogle } from '../lib/firebase/auth';
+import { onAuthStateChanged, signUp as authSignUp, signIn as authSignIn, signOut as authSignOut, signInWithGoogle as authSignInWithGoogle, initializeAuthPersistence } from '../lib/firebase/auth';
 import { createUserProfile, getUserProfile, type UserProfile } from '../lib/firebase/firestore';
 
 interface AuthContextType {
@@ -35,6 +35,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setProfile(null);
     }
   };
+
+  // Initialize session-based auth persistence on mount
+  useEffect(() => {
+    initializeAuthPersistence().catch((error) => {
+      console.error('Failed to initialize auth persistence:', error);
+    });
+  }, []);
 
   // Listen to auth state changes
   useEffect(() => {

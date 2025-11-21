@@ -14,19 +14,37 @@ export const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  
+  // Track initial state to detect changes
+  const [initialDisplayName, setInitialDisplayName] = useState('');
+  const [initialStatus, setInitialStatus] = useState('');
 
   // Load profile data when it's available
   useEffect(() => {
     if (profile) {
-      setDisplayName(profile.displayName || '');
-      setStatus(profile.status || '');
+      const profileDisplayName = profile.displayName || '';
+      const profileStatus = profile.status || '';
+      setDisplayName(profileDisplayName);
+      setStatus(profileStatus);
       setAvatarUrl(profile.avatar);
+      // Set initial state when profile loads
+      setInitialDisplayName(profileDisplayName);
+      setInitialStatus(profileStatus);
     } else if (user && !authLoading) {
       // If user exists but no profile yet, use auth user data
-      setDisplayName(user.displayName || '');
+      const userDisplayName = user.displayName || '';
+      setDisplayName(userDisplayName);
       setAvatarUrl(user.photoURL || undefined);
+      // Set initial state
+      setInitialDisplayName(userDisplayName);
+      setInitialStatus('');
     }
   }, [profile, user, authLoading]);
+
+  // Check if form has changes
+  const hasChanges = 
+    displayName.trim() !== initialDisplayName.trim() || 
+    status.trim() !== initialStatus.trim();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,6 +62,9 @@ export const Profile = () => {
       await updateUserProfile(user.uid, updateData);
       // Refresh profile from context
       await refreshProfile();
+      // Update initial state to reflect saved changes
+      setInitialDisplayName(displayName.trim());
+      setInitialStatus(status.trim());
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Failed to update profile' });
@@ -166,7 +187,7 @@ export const Profile = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                disabled={saving || !displayName.trim()}
+                disabled={saving || !displayName.trim() || !hasChanges}
                 className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving...' : 'Save Changes'}

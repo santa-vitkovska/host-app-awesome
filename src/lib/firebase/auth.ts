@@ -6,10 +6,25 @@ import {
   onAuthStateChanged as firebaseOnAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
+  setPersistence,
+  browserSessionPersistence,
   type User,
   type Unsubscribe,
 } from 'firebase/auth';
 import { getFirebaseAuth } from './config';
+
+/**
+ * Initialize session-based authentication persistence
+ * This ensures users are logged out when the browser closes
+ */
+export const initializeAuthPersistence = async (): Promise<void> => {
+  const auth = getFirebaseAuth();
+  try {
+    await setPersistence(auth, browserSessionPersistence);
+  } catch (error) {
+    console.error('Error setting auth persistence:', error);
+  }
+};
 
 /**
  * Sign up a new user with email and password
@@ -20,6 +35,8 @@ export const signUp = async (
   displayName: string
 ): Promise<User> => {
   const auth = getFirebaseAuth();
+  // Ensure session persistence is set before signing up
+  await initializeAuthPersistence();
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
 
@@ -36,6 +53,8 @@ export const signUp = async (
  */
 export const signIn = async (email: string, password: string): Promise<User> => {
   const auth = getFirebaseAuth();
+  // Ensure session persistence is set before signing in
+  await initializeAuthPersistence();
   const userCredential = await signInWithEmailAndPassword(auth, email, password);
   return userCredential.user;
 };
@@ -45,6 +64,8 @@ export const signIn = async (email: string, password: string): Promise<User> => 
  */
 export const signInWithGoogle = async (): Promise<User> => {
   const auth = getFirebaseAuth();
+  // Ensure session persistence is set before signing in
+  await initializeAuthPersistence();
   const provider = new GoogleAuthProvider();
   const userCredential = await signInWithPopup(auth, provider);
   return userCredential.user;
